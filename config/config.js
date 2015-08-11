@@ -3,12 +3,12 @@ var rootPath = path.normalize(__dirname + '/..');
 
 var config = {
   root: rootPath,
-  port: 3333,
+  port: 3000,
   mysql: {
-    host: 'test4592db.cajptrrlss3n.ap-northeast-1.rds.amazonaws.com',
-    username: 'test4592',
-    password: '12341234',
-    database: 'blog-test'
+    host: '',
+    username: '',
+    password: '',
+    database: '',
   },
   view: {
     page: 10
