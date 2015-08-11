@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  div(style='margin-top:100px;')
+  each post in posts
+    .post
+      .title
+        = post.title
+      .date
+        = post.updatedAt
+      .content
+        != post.content
+      hr

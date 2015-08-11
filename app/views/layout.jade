@@ -1,0 +1,30 @@
+doctype html
+<!--[if IE 8]>
+<html lang="ko" class="ie8">
+<![endif]-->  
+<!--[if IE 9]>
+<html lang="ko" class="ie9">
+<![endif]-->  
+<!--[if !IE]><!--> 
+<html lang="ko">
+<!--<![endif]-->
+
+block vars
+
+head
+  include ./header.jade
+  block header
+body
+  include ./mainmenu.jade
+  .container
+    if fluid
+      .col-md-offset-2.col-md-8
+        block content
+    else
+      .col-md-offset-3.col-md-6
+        block content
+  include ./footer.jade
+  include ./footer-script.jade
+  block footer
+</html>
+        

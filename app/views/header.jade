@@ -1,0 +1,16 @@
+title Blog
+meta(name='charset', content='utf-8')
+meta(name='viewport', content='width=device-width, initial-scale=1.0')
+meta(http-equiv='X-UA-Compatible', content='IE=edge')
+if ENV_DEVELOPMENT
+  link(rel='stylesheet', href='/assets/components/bootstrap/dist/css/bootstrap.min.css')
+  link(rel='stylesheet', href='/assets/css/style.css')
+  if user
+    link(rel='stylesheet', href='/assets/components/font-awesome/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/assets/components/summernote/dist/summernote.css')
+else if ENV_PRODUCTION
+  link(rel='stylesheet', href='/assets/font-awesome/css/font-awesome.min.css')
+  link(rel='stylesheet', href='/assets/css/style.css')
+  if user
+    link(rel='stylesheet', href='/assets/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/assets/summernote/dist/summernote.css')

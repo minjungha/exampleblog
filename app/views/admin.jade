@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  form(method='POST', action='/admin')
+    if msg[0]
+      .alert.alert-danger.alert-dismissable(role='alert')
+        button.close(type='button',data-dismiss='alert', aria-label='Close')
+          span(aria-hidden='true')&times;
+        each text in msg
+          li= text
+    .form-group
+      label(for='username') Username
+      input.form-control(type='text',id='username', name='username', placeholder='Username')
+    .form-group
+      label(for='password') Password
+      input.form-control(type='password', id='password', name='password', placeholder='Password')
+    button.btn.btn-default.btn-block(type='submit') Login
+

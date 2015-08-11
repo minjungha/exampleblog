@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  each post in posts
+    h3
+      a(href='/post/'+post.id)
+        = post.title
+    hr
+
+

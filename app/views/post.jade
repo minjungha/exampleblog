@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  .post
+    .title
+      = post.title
+    .date
+      = post.updatedAt
+    .content
+      != post.content
+    hr
