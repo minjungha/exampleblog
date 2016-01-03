@@ -10,6 +10,8 @@ var session = require('express-session');
 var passport = require('passport');
 var flash = require('connect-flash');
 var multer = require('multer');
+var redis = require('redis');
+var redisStore = require('connect-redis')(session);
 
 module.exports = function(app, config) {
 
@@ -37,9 +39,17 @@ module.exports = function(app, config) {
   app.use(expressValidator());
   app.use(cookieParser('qwopqfvoisjv1231pjasd3'));
 
+  var client = redis.createClient();
 
   app.use(session({
     secret: 'abzxcspduagadonb3341',
+    store: new redisStore({
+      host: 'localhost',
+      port: 6379,
+      client: client,
+      ttl: 60*60*24*3,
+      prefix: 'blog:session:'
+    }),
     saveUninitialized: false,
     resave: false,
     cookie: {
@@ -62,11 +72,9 @@ module.exports = function(app, config) {
     next();
   });
 
+  app.use('/assets', express.static(config.root + '/public'));
   if (env === 'development') {
-    app.use('/assets', express.static(config.root + '/public'));
     app.disable('view cache');
-  } else {
-    app.use('/assets', express.static(config.root + '/build'));
   }
 
 

@@ -16,4 +16,9 @@
 - grunt build
 - grunt lint
 
+## user add/ delete/ show ( in script/ )
+
+- node register [username] [password]
+- node delete [username]
+- node list [username]
 

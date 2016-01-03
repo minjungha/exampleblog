@@ -32,3 +32,36 @@
   border-color: rgba(0,0,0,0.5);
 }
 
+.right {
+  display:block;
+  text-align:right;
+}
+.inline {
+  display:inline-block;
+}
+
+.comments {
+  cursor:pointer;
+}
+
+p {
+  font-size: 93% !important;
+}
+
+.container {
+  text-align:center !important;
+}
+
+.wrapper {
+  width:500px;
+  max-width:100%;
+  display:inline-block;
+  text-align:left;
+}
+
+.date {
+  padding: 10px 0px 0px 0px;
+  color: #A6A6A6;
+}
+
+

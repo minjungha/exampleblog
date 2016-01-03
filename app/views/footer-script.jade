@@ -1,15 +1,8 @@
-if ENV_DEVELOPMENT
-  script(src='/assets/components/jquery/dist/jquery.js')
-  script(src='/assets/components/bootstrap/dist/js/bootstrap.js')
-  if user
-    script(src='/assets/components/summernote/dist/summernote.js')
-    script(src='/assets/components/summernote/lang/summernote-ko-KR.js')
-    script(src='/assets/components/summernote/plugin/summernote-ext-video.js')
-else if ENV_PRODUCTION
-  script(src='/assets/jquery/dist/jquery.js')
-  script(src='/assets/bootstrap/dist/js/bootstrap.js')
-  if user
-    script(src='/assets/summernote/dist/summernote.js')
-    script(src='/assets/summernote/lang/summernote-ko-KR.js')
-    script(src='/assets/summernote/plugin/summernote-ext-video.js')
-
+script(src='/assets/components/jquery/dist/jquery.js')
+script(src='/assets/components/bootstrap/dist/js/bootstrap.js')
+script(src='/assets/js/app.js')
+if user
+  script(src='/assets/components/summernote/dist/summernote.js')
+  script(src='/assets/components/summernote/lang/summernote-ko-KR.js')
+  script(src='/assets/components/summernote/plugin/summernote-ext-video.js')
+  script(src='/assets/js/write.js')

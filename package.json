@@ -34,6 +34,9 @@
     "crypto": "0.0.3",
     "mysql": "~2.8.0",
     "multer": "~1.0.3",
-    "bluebird": "~2.9.34"
+    "bluebird": "~2.9.34",
+    "moment": "~2.10.6",
+    "redis": "~0.12.1",
+    "connect-redis": "~2.4.1"
   }
 }

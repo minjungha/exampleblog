@@ -1,0 +1,17 @@
+{
+  "apps": [
+    {
+      "name": "blog",
+      "script": "app.js",
+      "watch" : false,
+      "merge_logs": true,
+      "cwd": "/home/ubuntu/exampleblog",
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "log_date_format" : "YYYY-MM-DD HH:mm Z",
+      "error_file": "/home/ubuntu/exampleblog/log/stderr.log",
+      "out_file": "/home/ubuntu/exampleblog/log/stdout.log"
+    }
+  ]
+}

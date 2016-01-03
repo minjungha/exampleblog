@@ -15,7 +15,8 @@ module.exports = function(app) {
 
 router.route('/admin').all(function(req, res, next) {
   if (req.user) {
-    res.redirect('/write');
+    res.redirect('/posts');
+    //res.redirect('/write');
     return;
   }
   next();
@@ -37,8 +38,33 @@ router.route('/write').all(function(req, res, next) {
   }
   next();
 }).get(function(req, res, next) {
+  var title = req.flash('post-title')[0] || null;
+  var content = req.flash('post-content')[0] || null;
+  var postId = req.flash('post-id')[0] || null;
   req.user.getTempPost().then(function(tempPost) {
-    if (tempPost) {
+    if (title || content) {
+      Promise.resolve().then(function() {
+        if (tempPost) {
+          return tempPost.update({
+            title: title,
+            content: content
+          });
+        } else {
+          return TempPost.create({
+            title: title,
+            content: content,
+            UserId: req.user.id
+          });
+        }
+      }).then(function() {
+        res.render('write', {
+          tempPostTitle: title,
+          tempPostContent: content,
+          edit: true,
+          postId: postId
+        });
+      });
+    } else if (tempPost) {
       res.render('write', {
         tempPostTitle: tempPost.title,
         tempPostContent: tempPost.content
@@ -75,8 +101,6 @@ router.route('/write').all(function(req, res, next) {
   var content = req.body.content;
   var postImages = req.body.images;
 
-  console.log(content);
-  
   req.user.getTempPost().bind({}).then(function(tempPost) {
     if (tempPost) {
       return tempPost.update({
@@ -127,7 +151,85 @@ router.route('/write').all(function(req, res, next) {
   }).then(function() {
     return this.tempPost.destroy();
   }).then(function() {
-    res.redirect('/post/' + this.post.id);
+    res.redirect('/posts');
+    //res.redirect('/post/' + this.post.id);
+  }).catch(function(err) {
+    next(err);
+  });
+});
+
+router.route('/edit').all(function(req, res, next) {
+  if (!req.user) {
+    return res.sendStatus(404);
+  }
+  next();
+}).post(function(req, res, next) {
+  var id = req.body.id;
+  var title = req.body.title;
+  var content = req.body.content;
+  var postImages = req.body.images;
+
+  Post.findById(id).bind({}).then(function(post) {
+    if (! post) {
+      return res.redirect('/');
+    }
+    this.post = post;
+    /*
+    if (req.user.id !== post.UserId) {
+      return res.redirect('/');
+    }*/
+    return req.user.getTempPost();
+  }).then(function(tempPost) {
+    if (tempPost) {
+      return tempPost.update({
+        title: title,
+        content: content
+      });
+    } else {
+      return TempPost.create({
+        title: title,
+        content: content,
+        UserId: req.user.id
+      });
+    }
+  }).then(function(tempPost) {
+    this.tempPost = tempPost;
+    return tempPost.getImages();
+  }).then(function(images) {
+    if (postImages) {
+      return Promise.map(images, function(image) {
+        if (!(image.path in pmages)) {
+          var path = image.path;
+          return Promise.all([
+            image.destroy(),
+            fs.unlinkAsync(__dirname+'/../../' + path)
+          ]);
+        }
+      });
+    } else {
+      return;
+    }
+  }).then(function() {
+    return this.post.update({
+      title: this.tempPost.title,
+      content: this.tempPost.content,
+    });
+  }).then(function(post) {
+    this.post = post;
+    return this.tempPost.getImages();
+  }).then(function(images) {
+    var postId = this.post.id;
+    return Promise.map(images, function(image) {
+      return image.update({
+        postId: postId,
+        TempPostId: null
+      });
+    });
+  }).then(function() {
+    return this.tempPost.destroy();
+  }).then(function() {
+    res.redirect('/posts');
+    //res.redirect('/post/' + this.post.id);
   }).catch(function(err) {
     next(err);
   });
@@ -157,4 +259,14 @@ router.route('/upload').all(function(req, res, next) {
   }).catch(function(err) {
     next(err);
   });
+});
+
+router.route('/logout').all(function(req, res, next) {
+  if (!req.user) {
+    return res.sendStatus(404);
+  }
+  next();
+}).post(function(req, res, next) {
+  req.logout();
+  res.redirect('/');
 });

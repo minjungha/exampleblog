@@ -1,13 +1,30 @@
 extends layout
 
 block content
-  div(style='margin-top:100px;')
+  if user
+    .right
+      form.inline(action='/write', method='GET')
+        input.btn.btn-default.btn-xs(type='submit', value='글쓰기')
+      form.inline(action='/logout', method='POST')
+        input.btn.btn-warning.btn-xs(type='submit', value='관리자 로그아웃')
+
   each post in posts
     .post
       .title
         = post.title
       .date
         = post.updatedAt
+      if user
+        .right
+          form.inline(action='/posts/edit', method='POST')
+            input(type='hidden', name='id', value=post.id)
+            input.btn.btn-default.btn-xs(type='submit',value='수정')
+          form.inline(action='/posts/delete', method='POST')
+            input(type='hidden', name='id', value=post.id)
+            input.btn.btn-warning.btn-xs(type='submit',value='삭제')
       .content
         != post.content
+      .comments(hash = post.id)
+        i.fa.fa-comments-o
+        |  comments
       hr
